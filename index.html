@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streak Counter</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent-glow: rgba(255, 255, 255, 0.15);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .streak-number {
+            font-size: 12rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            position: relative;
+            animation: pulse 4s ease-in-out infinite;
+            text-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .streak-label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-top: -1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 40px var(--accent-glow);
+            }
+            50% {
+                transform: scale(1.02);
+                text-shadow: 0 0 60px rgba(255, 255, 255, 0.25);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .streak-number {
+                font-size: 8rem;
+            }
+            .streak-label {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="streak" class="streak-number">0</div>
+        <div class="streak-label">Days Streak</div>
+    </div>
+
+    <script>
+        // --- EDIT START DATE HERE ---
+        const startDate = "2026-01-01";
+        // ----------------------------
+
+        function updateStreak() {
+            const start = new Date(startDate);
+            const now = new Date();
+            
+            // Set both to midnight for accurate day calculation
+            const startMidnight = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+            const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            const diffTime = nowMidnight - startMidnight;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            
+            const streakElement = document.getElementById('streak');
+            streakElement.innerText = diffDays > 0 ? diffDays : 0;
+        }
+
+        // Initial update
+        updateStreak();
+
+        // Check every hour to see if the day has changed
+        setInterval(updateStreak, 1000 * 60 * 60);
+    </script>
+</body>
+</html>
+

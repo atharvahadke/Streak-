@@ -1,0 +1,5 @@
+{
+  "name": "Minimal Streak Counter",
+  "description": "A clean, dark-mode streak counter that calculates days from a fixed start date.",
+  "requestFramePermissions": []
+}
